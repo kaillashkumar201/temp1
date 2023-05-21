@@ -1,0 +1,26 @@
+sudo yum update -y
+
+sudo rpm --import https://www.mongodb.org/static/pgp/server-4.4.asc
+sudo vi /etc/yum.repos.d/mongodb-org-4.4.repo
+
+[mongodb-org-4.4]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/4.4/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
+
+sudo yum install -y mongodb-org
+
+sudo service mongod start
+
+(in local machine)
+scp -i /path/to/your-key-pair.pem your-local-file.json ec2-user@your-ec2-instance-ip:/home/ec2-user/
+
+mongoimport --host localhost --db employeedb --collection employees --file employee_data.json
+
+mongo
+show dbs
+
+To export the mongodb database:
+mongoexport --host localhost --db local --collection startup_log --pretty > local.startup_log.json
